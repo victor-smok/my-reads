@@ -7,7 +7,7 @@ class Search extends Component {
     static propTypes = {
         booksOnShelf: PropTypes.array,
         search: PropTypes.func.isRequired,
-        searchLoading: PropTypes.bool.isRequired,
+        showSearchLoading: PropTypes.bool.isRequired,
         searchResults: PropTypes.array,
         moveTo: PropTypes.func.isRequired,
         clearSearch: PropTypes.func.isRequired
@@ -16,24 +16,30 @@ class Search extends Component {
     state = {
         query: ''
     }
+
     componentDidMount() {
         this.clearQuery()
     }
+
+    clearQuery = () => {
+        this.setState({query: ''})
+        this.props.clearSearch()
+    }   
+
     updateQuery = (query) => {
         this.setState({
             query: query.target.value
         })
 
         if (query.target.value === '') {
+            console.log('limpar query')
             this.clearQuery()
+            this.props.search('', 40)
         }
         else {
             this.props.search(this.state.query, 40)
         }
     }
-    clearQuery = () => {
-        this.props.clearSearch()
-    }   
 
     getShelf = (book) => {
         var filteredBooks = this.props.booksOnShelf.filter(b => b.title === book.title)
@@ -52,6 +58,7 @@ class Search extends Component {
                 let bookThumbnail
                 if (book.imageLinks)
                     bookThumbnail = book.imageLinks.thumbnail
+                
 
                 let bookShelf = this.getShelf(book);
                 return (
@@ -90,7 +97,7 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    {this.props.searchLoading && <Loader/>}
+                    {this.props.showSearchLoading && <Loader/>}
                     <ol className="books-grid">
                         {results}
                     </ol>

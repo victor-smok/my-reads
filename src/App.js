@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-
 import * as BooksAPI from './BooksAPI'
 import Search from './Search'
 import ListBooks from './ListBooks'
@@ -11,9 +10,9 @@ import './App.css'
 class BooksApp extends Component {
     state = {
         books: [],
+        results: [],
         loading: false,
-        searchLoading: false,
-        results: []
+        showSearchLoading: false,
     }
     getAllBooks = () => {
         this.setState({
@@ -36,11 +35,11 @@ class BooksApp extends Component {
     }
     search = (query, maxResults) => {
         this.setState({
-            searchLoading: true
+            showSearchLoading: true
         })
         BooksAPI.search(query, maxResults).then(results => {
             this.setState({
-                searchLoading: false,
+                showSearchLoading: false,
                 results: results
             })
         })
@@ -60,7 +59,7 @@ class BooksApp extends Component {
                             moveTo={this.moveTo}
                             clearSearch={this.clearSearch}
                             search={this.search}
-                            searchLoading={this.state.searchLoading}
+                            showSearchLoading={this.state.showSearchLoading}
                             searchResults={this.state.results}
                         />
                     )}
