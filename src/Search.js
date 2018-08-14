@@ -27,6 +27,7 @@ class Search extends Component {
     }   
 
     updateQuery = (query) => {
+
         this.setState({
             query: query.target.value
         })
@@ -37,7 +38,7 @@ class Search extends Component {
             this.props.search('', 40)
         }
         else {
-            this.props.search(this.state.query, 40)
+            this.props.search(query.target.value, 40)
         }
     }
 
@@ -68,7 +69,7 @@ class Search extends Component {
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${bookThumbnail})` }}></div>
                                 <div className="book-shelf-changer">
                                     <select onChange={(e) => { this.props.moveTo(book, e.target.value); }} defaultValue={bookShelf}>
-                                        <option value="none" disabled>Move to...</option>
+                                        <option value="moveTo" disabled>Move to...</option>
                                         <option value="currentlyReading">Currently Reading</option>
                                         <option value="wantToRead">Want to Read</option>
                                         <option value="read">Read</option>
